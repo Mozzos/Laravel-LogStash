@@ -20,8 +20,10 @@ class Client
 
     /**
      * Client constructor.
+     * @param $type
+     * @param array $tag
      */
-    public function __construct($type,String $tag)
+    public function __construct($type,$tag = array(['*']))
     {
         // Init a RedisHandler with a LogstashFormatter.
         // The parameters may differ depending on your configuration of Redis.

@@ -19,17 +19,16 @@ trait LMRETraits
      * @param String $tag
      * @return \Mozzos\LMRE\Client
      */
-    private function getClient($type,String $tag = 'action'){
+    private function getClient($type,$tag = array(['*'])){
         return new \Mozzos\LMRE\Client($type,$tag);
     }
 
     /**
-     * Log a log
-     * @param $id
      * @param $type
-     * @param String $tag
+     * @param array $tag
+     * @param $text
      */
-    function logOne($type,String $tag = 'action',$text){
+    function logOne($type,$tag = array(['*']),$text){
         $client = $this->getClient($type,$tag);
         if (!$client){
             new \Exception("error");
@@ -55,7 +54,6 @@ trait LMRETraits
         if (!$this->client){
             new \Exception("Please initialization client on first !");
         }
-        dd($this->client->logger);
         $this->client->logger->info($text);
     }
 }
