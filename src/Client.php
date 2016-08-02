@@ -10,6 +10,7 @@ namespace Mozzos\LMRE;
 
 
 use Monolog\Formatter\LogstashFormatter;
+use Monolog\Handler\RedisHandler;
 use Monolog\Logger;
 
 class Client
@@ -20,13 +21,13 @@ class Client
     /**
      * Client constructor.
      */
-    public function __construct($id,$type,String $tag)
+    public function __construct($type,String $tag)
     {
         // Init a RedisHandler with a LogstashFormatter.
         // The parameters may differ depending on your configuration of Redis.
         // Important: The parameter 'logs' must be equal to the key you defined
         // in your logstash configuration.
-        $redisHandler = new RedisHandler(new \Predis\Client(), config('index').'-'.$id);
+        $redisHandler = new RedisHandler(new \Predis\Client(), config('lmre.index','default'));
         $formatter = new LogstashFormatter($type);
         $redisHandler->setFormatter($formatter);
 
