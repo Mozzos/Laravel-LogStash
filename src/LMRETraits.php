@@ -28,12 +28,13 @@ trait LMRETraits
      * @param array $tag
      * @param $text
      */
-    function logOne($type,$tag = array(['*']),$text){
+    function logOne($type,$text,$tag = array(['*']),$exception = array(['*'])){
         $client = $this->getClient($type,$tag);
         if (!$client){
             new \Exception("error");
         }
-        $client->logger->info($text);
+        $text = $this->serialize($text);
+        $client->logger->info($text,$exception);
     }
 
     /**
@@ -50,10 +51,20 @@ trait LMRETraits
     /**
      * @param $text
      */
-    function log($text){
+    function log($text,$exception = array(['*'])){
         if (!$this->client){
             new \Exception("Please initialization client on first !");
         }
-        $this->client->logger->info($text);
+        $this->client->logger->info($text,$exception);
     }
+
+    private function serialize($content){
+        if (!empty($content)&&is_array($content)&&count($content)==3){
+            return $content[0] . '=>' . $content[1] . '=>' .$content[2];
+        }else{
+            return '';
+        }
+    }
+
+
 }
